@@ -97,4 +97,76 @@ servidor.get("/cores", (req, resp) => {
   }
 })
 
+servidor.post("/treino/cinema/validacao", (req, resp) => {
+  try {
+    const { idadePessoa1, idadePessoa2, classificacao } = req.body;
+
+    if (!Number(idadePessoa1))
+      throw new Error("Idade pessoa 1 não é um número")
+
+
+    if (!Number(idadePessoa2))
+      throw new Error("Idade pessoa 2 não é um número")
+
+    let resultado = false;
+  
+    // if (idadePessoa1 >= classificacao && idadePessoa2 >= classificacao || classificacao == "livre") {
+    //   resultado = true
+    // }
+
+    if (classificacao === "livre"){
+      resultado = true
+    } else if (idadePessoa1 >= classificacao && idadePessoa2 >= classificacao) {
+      resultado = true
+    }
+
+    return resp.send({
+      podemAssistir: resultado
+    })
+  } catch (error) {
+    return resp.status(400).send({
+      err: error.message
+    })
+  }
+})
+
+servidor.get("/treino/:numero/tabuada", (req, resp) => {
+  try {
+    const resultado = [];
+
+    const numero = Number(req.params.numero);
+
+    for (let i = 1; i <= 10; i++) {
+      let calculo = numero * i;
+      resultado.push(calculo);
+    }
+
+    resp.send({
+      tabuada: resultado
+    });
+  } catch (error) {
+    return resp.status(400).send({
+      err: error.message
+    })
+  }
+})
+
+servidor.post("/treino/ordenacao", (req, resp) => {
+  // const { arrayNumero } = req.body;
+
+  const numeros = [1, 2, 3, 4, 5];
+  
+  let ordenacao = "";
+
+  for (let i = 0; i < numeros.length; i++) {
+    for (let j = 1; j < numeros.length; j++) {
+      if (numeros[i] > numeros[j]) {
+       
+      }
+    }
+  }
+
+  console.log(ordenacao);
+})
+
 servidor.listen(3000, () => console.log("Servidor rodando"));
